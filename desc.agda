@@ -36,8 +36,7 @@ data μ (D : Desc) : Set where
   con : ⟦ D ⟧ (μ D) → μ D
 
 
-
-
+-- (IH P xs) is the type of inductive hypotheses about P we can generate from xs  
 IH : {D : Desc} → (A → Set) → ⟦ D ⟧ A → Set
 IH {D = `1} P xs = ⊤
 IH {D = `ind} P xs = P xs
@@ -45,6 +44,7 @@ IH {D = D `× D₁} P (xs , ys) = IH P xs × IH P ys
 IH {D = `Σ A B} P (a , xs) = IH P xs
 IH {D = `Π A B} P f = (a : A) → IH P (f a) 
 
+-- A dependent algebra
 D-Alg : {D : Desc} → (μ D → Set) → Set
 D-Alg {D} P = (xs : ⟦ D ⟧ (μ D)) → IH P xs → P (con xs)
 
